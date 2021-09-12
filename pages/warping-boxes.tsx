@@ -2,13 +2,9 @@
 import React from 'react';
 import { OrbitControls, softShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import dynamic from 'next/dynamic';
-import Floor from '../components/Floor';
+import Floor from '../components/warpingBoxes/Floor';
+import Box from '../components/warpingBoxes/Box';
 // =========================
-
-const BoxWithLoader = dynamic(() => import('../components/Box'), {
-  ssr: false,
-});
 
 softShadows();
 
@@ -42,21 +38,21 @@ export default function warpingBoxes() {
         position={[-25, -25, -25]}
       />
       <Floor />
-      <BoxWithLoader
+      <Box
         position={[-2, 1, 4]}
         args={[1, 1.5, 1.5]}
         rotationSpeed={0.005}
         color={'pink'}
         wobbleSpeed={4}
       />
-      <BoxWithLoader
+      <Box
         position={[1, 1, 2]}
         args={[2, 1, 2]}
         rotationSpeed={0.01}
         color={'lightblue'}
         wobbleSpeed={2}
       />
-      <BoxWithLoader
+      <Box
         position={[2.5, 1, -1]}
         args={[1.5, 1, 1]}
         rotationSpeed={0.015}
