@@ -1,9 +1,10 @@
 // Components==============
+import { motion } from 'framer-motion';
+import { Leva } from 'leva';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { animated, useSpring } from 'react-spring';
+import React, { useRef, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { theme } from '../styles/theme';
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
   width: 100vw;
 `;
 
-const Side = styled(animated.div)`
+const Side = styled(motion.div)`
   background-color: ${({ theme }) => theme.color.black};
   height: 100%;
   width: 100%;
@@ -63,18 +64,50 @@ const Content = styled.div`
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [sideBarVisible, setSideBarVisible] = useState(false);
-  const sideStyles = useSpring({ left: sideBarVisible ? 0 : -300 });
 
   const { pathname } = useRouter();
+
+  const canvas = useRef<HTMLDivElement>(null);
+  const [hideDebug, setHideDebug] = useState(false);
+
+  function handleDubbleClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.shiftKey) return setHideDebug((prev) => !prev);
+    if (!e.ctrlKey) return;
+
+    const fullscreenElement =
+      document.fullscreenElement || document.webkitFullscreenElement;
+
+    if (!canvas.current) return;
+
+    if (!fullscreenElement) {
+      if (canvas.current.requestFullscreen) {
+        canvas.current.requestFullscreen();
+        // @ts-ignore
+      } else if (canvas.current.webkitRequestFullscreen) {
+        // @ts-ignore
+        canvas.current.webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  }
 
   return (
     <>
       <Head>
-        <title>Three js</title>
+        <title>Three.js playground</title>
       </Head>
+      <Leva hidden={hideDebug} />
       <ThemeProvider theme={theme}>
         <Wrapper>
-          <Side style={sideStyles}>
+          <Side
+            animate={{ left: sideBarVisible ? 0 : -300 }}
+            initial={{ left: sideBarVisible ? 0 : -300 }}
+          >
             {pages.map((page) => (
               <Link key={page.link} href={page.link}>
                 <a onClick={() => setSideBarVisible(false)}>{page.name}</a>
@@ -86,7 +119,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <img src="/menu.svg" alt="menu" />
             </Button>
           )}
-          <Content>{children}</Content>
+          <Content ref={canvas} onDoubleClick={handleDubbleClick}>
+            {children}
+          </Content>
         </Wrapper>
         <GlobalStyles />
       </ThemeProvider>

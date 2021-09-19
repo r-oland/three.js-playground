@@ -1,12 +1,5 @@
 const mediaQuery = (minWidth: number) => `@media (min-width: ${minWidth}px)`;
 
-const fontSize = (small: number, big: number) =>
-  `font-size: ${small}px,
-
-  ${mediaQuery(768)} {
-     font-size: ${big}px, 
-  }`;
-
 export type ThemeTypes = typeof theme;
 
 export const theme = {
@@ -48,12 +41,12 @@ export const theme = {
   },
 
   fontSize: {
-    s: fontSize(16, 16),
-    m: fontSize(17, 17),
-    l: fontSize(19, 19),
-    h2: fontSize(28.5, 28),
-    h3: fontSize(27, 35),
-    h1: fontSize(30, 40),
+    s: '16px',
+    m: '17px',
+    l: '19px',
+    h2: '28px',
+    h3: '35px',
+    h1: '40px',
   },
   fontWeight: {
     normal: '400',

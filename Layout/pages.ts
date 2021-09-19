@@ -1,1 +1,5 @@
-export const pages = [{ name: 'Warping boxes', link: '/warping-boxes' }];
+export const pages = [
+  { name: 'Textures', link: '/textures' },
+  { name: 'Donut', link: '/donut' },
+  { name: 'Warping boxes', link: '/warping-boxes' },
+];

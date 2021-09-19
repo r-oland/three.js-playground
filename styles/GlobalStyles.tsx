@@ -3,12 +3,18 @@ import { createGlobalStyle } from 'styled-components';
 // =========================
 
 export const GlobalStyles = createGlobalStyle`
-	/* font*/
+	:root {
+		--leva-fonts-mono: 'Raleway', sans-serif !important;  
+	}
 
 	html {
 		background-color: ${({ theme }) => theme.color.offWhite};
 	}
-	
+
+	canvas {
+		background-color: ${({ theme }) => theme.color.gray}
+	}
+
 	body {
 	font-family: 'Raleway', sans-serif;
 	color: ${({ theme }) => theme.color.black};

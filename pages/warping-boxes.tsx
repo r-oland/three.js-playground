@@ -8,7 +8,7 @@ import Box from '../components/warpingBoxes/Box';
 
 softShadows();
 
-export default function warpingBoxes() {
+export default function WarpingBoxes() {
   return (
     <Canvas camera={{ fov: 60, position: [-5, 0, -5] }} shadows>
       <OrbitControls />

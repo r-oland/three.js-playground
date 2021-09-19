@@ -1,17 +1,8 @@
-type MemberEntity = {
-  id: number;
-  name: string;
-  image: string;
-  completed: boolean;
-};
-
-type CardEntity = {
-  id: number;
-  name: string;
-  image: string;
-  completed: boolean;
-  organisation?: string;
-  members?: MemberEntity[];
-  labels?: string[];
-  created_at: string;
-};
+interface Document {
+  exitFullscreen: () => void;
+  mozCancelFullScreen: () => void;
+  webkitExitFullscreen: () => void;
+  fullscreenElement: () => void;
+  mozFullScreenElement: () => void;
+  webkitFullscreenElement: () => void;
+}
