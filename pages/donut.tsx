@@ -7,25 +7,25 @@ import Group from '../components/donut/Group';
 // =========================
 
 export default function BasicBox() {
-  useControls('lights', {}, { collapsed: true });
+  useControls('d-lights', {}, { collapsed: true });
 
-  const ambient = useControls('lights.ambient', {
+  const ambient = useControls('d-lights.ambient', {
     intensity: 0.1,
   });
 
-  const dirLight = useControls('lights.directional light', {
+  const dirLight = useControls('d-lights.directional light', {
     position: [0, 10, 0],
     intensity: 0.4,
   });
 
-  const pointer1 = useControls('lights.pointer light 1', {
+  const pointer1 = useControls('d-lights.pointer light 1', {
     color: '#fff',
     intensity: { value: 1, min: 0, max: 5 },
     distance: 100,
     position: { value: [25, 25, 25], step: 1 },
   });
 
-  const pointer2 = useControls('lights.pointer light 2', {
+  const pointer2 = useControls('d-lights.pointer light 2', {
     color: '#356ed1',
     intensity: { value: 1, min: 0, max: 5 },
     distance: 100,

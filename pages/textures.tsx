@@ -8,18 +8,18 @@ import Item from '../components/textures/Item';
 // =========================
 
 export default function Textures() {
-  useControls('lights', {}, { collapsed: true });
+  useControls('t-lights', {}, { collapsed: true });
 
-  const ambient = useControls('lights.ambient', {
+  const ambient = useControls('t-lights.ambient', {
     intensity: 2,
   });
 
-  const dirLight = useControls('lights.directional light', {
+  const dirLight = useControls('t-lights.directional light', {
     position: [-100, 6, -100],
     intensity: 1,
   });
 
-  const pointer = useControls('lights.pointer light 1', {
+  const pointer = useControls('t-lights.pointer light 1', {
     color: '#ff0e0e',
     intensity: { value: 4.6, min: 0, max: 5 },
     distance: 100,

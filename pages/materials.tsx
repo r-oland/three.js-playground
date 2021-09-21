@@ -2,8 +2,8 @@
 import { OrbitControls, useTexture } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Material, MeshBasicMaterial, MeshStandardMaterial } from 'three';
+import React, { Suspense, useMemo } from 'react';
+import { MeshStandardMaterial } from 'three';
 import Loader from '../components/Loader';
 import Cone from '../components/materials/Cone';
 import Plane from '../components/materials/Plane';
@@ -41,25 +41,25 @@ const Content = () => {
 };
 
 export default function materials() {
-  useControls('lights', {}, { collapsed: true });
+  useControls('m-lights', {}, { collapsed: true });
 
-  const ambient = useControls('lights.ambient', {
+  const ambient = useControls('m-lights.ambient', {
     intensity: 0.1,
   });
 
-  const dirLight = useControls('lights.directional light', {
+  const dirLight = useControls('m-lights.directional light', {
     position: [1, 2, -6],
     intensity: 1,
   });
 
-  const pointer1 = useControls('lights.pointer light 1', {
+  const pointer1 = useControls('m-lights.pointer light 1', {
     color: '#d87676',
     intensity: { value: 1, min: 0, max: 5 },
     distance: 100,
     position: { value: [25, 25, 25], step: 1 },
   });
 
-  const pointer2 = useControls('lights.pointer light 2', {
+  const pointer2 = useControls('m-lights.pointer light 2', {
     color: '#356ed1',
     intensity: { value: 1, min: 0, max: 5 },
     distance: 100,
