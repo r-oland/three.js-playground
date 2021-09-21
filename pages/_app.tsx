@@ -1,5 +1,9 @@
 import { AppProps } from 'next/app';
-import Layout from '../Layout/Layout';
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+// disable ssr for react suspense API
+const Layout = dynamic(() => import('../Layout/Layout'), { ssr: false });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

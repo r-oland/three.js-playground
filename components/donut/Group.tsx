@@ -54,7 +54,7 @@ export default function Group() {
         // position-x={x}
         ref={box}
       >
-        <octahedronBufferGeometry args={[0.3, 0]} />
+        <octahedronGeometry args={[0.3, 0]} />
         {/* <boxGeometry args={[0.2, 0.2, 0.2, 8, 4]} /> */}
         {/* <bufferGeometry>
           <bufferAttribute

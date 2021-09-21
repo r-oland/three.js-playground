@@ -41,7 +41,7 @@ export default function Box({
       ref={ref}
       castShadow
     >
-      <boxBufferGeometry args={args} />
+      <boxGeometry args={args} />
       {/* @ts-ignore */}
       <MeshWobbleMaterial
         color={color}
