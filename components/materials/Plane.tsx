@@ -1,19 +1,25 @@
 // Components==============
 import { useControls } from 'leva';
 import React from 'react';
-import { Material } from 'three';
 // =========================
 
-export default function Plane({ material }: { material: Material }) {
-  const { width, height, rotation } = useControls('desert.plane', {
+export default function Plane({ textures }: { textures: any }) {
+  const { width, height, rotation, color } = useControls('desert.plane', {
     rotation: [Math.PI * 1.5, 0, 0],
-    width: 5,
-    height: 5,
+    width: 8,
+    height: 8,
+    color: '#ffedcc',
   });
 
   return (
-    <mesh rotation={rotation} material={material}>
-      <planeGeometry args={[width, height]} />
+    <mesh rotation={rotation}>
+      <meshStandardMaterial
+        {...textures}
+        displacementScale={0.25}
+        color={color}
+        normalScale={[0.5, 0.5]}
+      />
+      <planeGeometry args={[width, height, 100, 100]} />
     </mesh>
   );
 }

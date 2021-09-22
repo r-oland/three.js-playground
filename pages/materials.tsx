@@ -1,9 +1,8 @@
 // Components==============
-import { OrbitControls, useTexture } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useCubeTexture, useTexture } from '@react-three/drei';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useControls } from 'leva';
-import React, { Suspense, useMemo } from 'react';
-import { MeshStandardMaterial } from 'three';
+import React, { Suspense, useEffect, useState } from 'react';
 import Loader from '../components/Loader';
 import Cone from '../components/materials/Cone';
 import Plane from '../components/materials/Plane';
@@ -11,33 +10,39 @@ import Sphere from '../components/materials/Sphere';
 // =========================
 
 const Content = () => {
-  const { map, normalMap, roughnessMap, aoMap } = useTexture({
+  const getTextures = useTexture({
     map: '/sand/sand_Color.jpg',
     normalMap: '/sand/sand_NormalDX.jpg',
     roughnessMap: '/sand/sand_Roughness.jpg',
+    displacementMap: '/sand/sand_Displacement.jpg',
     aoMap: '/sand/sand_AmbientOcclusion.jpg',
   });
 
-  const { color } = useControls('desert', { color: '#baad89' });
-
-  const material = useMemo(
-    () =>
-      new MeshStandardMaterial({
-        color,
-        map,
-        normalMap,
-        roughnessMap,
-        aoMap,
-      }),
-    [color]
-  );
-
+  const [textures] = useState(getTextures);
   return (
     <>
-      {!!material && <Plane material={material} />}
-      {!!material && <Cone material={material} />}
+      <Plane textures={textures} />
+      <Cone textures={textures} />
     </>
   );
+};
+
+const Background = () => {
+  const envMap = useCubeTexture(
+    ['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'],
+    {
+      path: '/Standard-Cube-Map/',
+    }
+  );
+
+  const scene = useThree((state) => state.scene);
+
+  useEffect(() => {
+    scene.background = envMap;
+    scene.environment = envMap;
+  }, []);
+
+  return null;
 };
 
 export default function materials() {
@@ -78,7 +83,12 @@ export default function materials() {
       <Suspense fallback={<Loader />}>
         <Content />
       </Suspense>
-      <Sphere />
+      <Suspense fallback={<Loader />}>
+        <Sphere />
+      </Suspense>
+      <Suspense fallback={<Loader />}>
+        <Background />
+      </Suspense>
       <ambientLight {...ambient} />
       <directionalLight {...dirLight} />
       <pointLight {...pointer1} />

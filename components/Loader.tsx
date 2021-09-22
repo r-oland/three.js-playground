@@ -8,7 +8,7 @@ export default function Loader() {
 
   return (
     <Html center>
-      <h1 style={{ color: 'white' }}>{progress}%</h1>
+      <h1 style={{ color: 'white' }}>{Math.floor(progress)}%</h1>
     </Html>
   );
 }
