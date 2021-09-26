@@ -65,7 +65,7 @@ const Content = styled.div`
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [sideBarVisible, setSideBarVisible] = useState(false);
 
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   const canvas = useRef<HTMLDivElement>(null);
   const [hideDebug, setHideDebug] = useState(false);
@@ -115,7 +115,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </Side>
           {!!(pathname !== '/') && (
-            <Button onClick={() => setSideBarVisible((prev) => !prev)}>
+            <Button
+              onClick={(e) => {
+                if (e.ctrlKey) {
+                  setSideBarVisible(false);
+                  return push('/');
+                }
+
+                setSideBarVisible((prev) => !prev);
+              }}
+            >
               <img src="/menu.svg" alt="menu" />
             </Button>
           )}

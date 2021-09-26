@@ -1,16 +1,30 @@
 // Components==============
-import { OrbitControls, useCubeTexture, useTexture } from '@react-three/drei';
-import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, useTexture } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { createContext, Suspense } from 'react';
+import { Texture } from 'three';
 import Loader from '../components/Loader';
+import Background from '../components/materials/Background';
 import Cone from '../components/materials/Cone';
 import Plane from '../components/materials/Plane';
 import Sphere from '../components/materials/Sphere';
 // =========================
 
-const Content = () => {
-  const getTextures = useTexture({
+type MaterialsContextType = {
+  textures: {
+    map: Texture;
+    normalMap: Texture;
+    roughnessMap: Texture;
+    displacementMap: Texture;
+    aoMap: Texture;
+  };
+};
+
+export const MaterialsContext = createContext({} as MaterialsContextType);
+
+const ContentLoader = () => {
+  const textures = useTexture({
     map: '/sand/sand_Color.jpg',
     normalMap: '/sand/sand_NormalDX.jpg',
     roughnessMap: '/sand/sand_Roughness.jpg',
@@ -18,31 +32,17 @@ const Content = () => {
     aoMap: '/sand/sand_AmbientOcclusion.jpg',
   });
 
-  const [textures] = useState(getTextures);
   return (
-    <>
-      <Plane textures={textures} />
-      <Cone textures={textures} />
-    </>
+    <MaterialsContext.Provider
+      value={{
+        textures,
+      }}
+    >
+      <Plane />
+      <Cone />
+      <Sphere />
+    </MaterialsContext.Provider>
   );
-};
-
-const Background = () => {
-  const envMap = useCubeTexture(
-    ['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'],
-    {
-      path: '/Standard-Cube-Map/',
-    }
-  );
-
-  const scene = useThree((state) => state.scene);
-
-  useEffect(() => {
-    scene.background = envMap;
-    scene.environment = envMap;
-  }, []);
-
-  return null;
 };
 
 export default function materials() {
@@ -72,28 +72,25 @@ export default function materials() {
   });
 
   return (
-    <Canvas
-      dpr={
-        typeof window !== 'undefined'
-          ? Math.min(window.devicePixelRatio, 2)
-          : undefined
-      }
-      camera={{ fov: 45, position: [0, 1, 5] }}
-    >
-      <Suspense fallback={<Loader />}>
-        <Content />
-      </Suspense>
-      <Suspense fallback={<Loader />}>
-        <Sphere />
-      </Suspense>
-      <Suspense fallback={<Loader />}>
-        <Background />
-      </Suspense>
-      <ambientLight {...ambient} />
-      <directionalLight {...dirLight} />
-      <pointLight {...pointer1} />
-      <pointLight {...pointer2} />
-      <OrbitControls />
-    </Canvas>
+    <>
+      <Canvas
+        dpr={
+          typeof window !== 'undefined'
+            ? Math.min(window.devicePixelRatio, 2)
+            : undefined
+        }
+        camera={{ fov: 45, position: [0, 0, 5] }}
+      >
+        <Suspense fallback={<Loader />}>
+          <ContentLoader />
+          <Background />
+        </Suspense>
+        <ambientLight {...ambient} />
+        <directionalLight {...dirLight} />
+        <pointLight {...pointer1} />
+        <pointLight {...pointer2} />
+        <OrbitControls />
+      </Canvas>
+    </>
   );
 }

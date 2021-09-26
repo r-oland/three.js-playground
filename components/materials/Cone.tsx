@@ -1,9 +1,12 @@
 // Components==============
 import { useControls } from 'leva';
-import React from 'react';
+import React, { useContext } from 'react';
+import { MaterialsContext } from '../../pages/materials';
 // =========================
 
-export default function Cone({ textures }: { textures: any }) {
+export default function Cone() {
+  const { textures } = useContext(MaterialsContext);
+
   const { position, size, height } = useControls('desert.cone', {
     position: [-0.53, 0.6, 0.52],
     size: 1.41,

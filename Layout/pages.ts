@@ -1,4 +1,5 @@
 export const pages = [
+  { name: 'Text', link: '/text' },
   { name: 'Materials', link: '/materials' },
   { name: 'Textures', link: '/textures' },
   { name: 'Donut', link: '/donut' },

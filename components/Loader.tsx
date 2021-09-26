@@ -4,7 +4,7 @@ import React from 'react';
 // =========================
 
 export default function Loader() {
-  const { progress } = useProgress();
+  const progress = useProgress((state) => state.progress);
 
   return (
     <Html center>
