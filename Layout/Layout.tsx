@@ -4,15 +4,22 @@ import { Leva } from 'leva';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import InputArea from '../components/tastDemo/InputArea';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { theme } from '../styles/theme';
 import { pages } from './pages';
 // =========================
 
+type LayoutContextType = {
+  shortCanvas: boolean;
+  setShortCanvas: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const LayoutContext = createContext({} as LayoutContextType);
+
 const Wrapper = styled.div`
-  height: 100vh;
   width: 100vw;
 `;
 
@@ -62,10 +69,17 @@ const Content = styled.div`
   width: 100%;
 `;
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [sideBarVisible, setSideBarVisible] = useState(false);
+const InputWrapper = styled.div`
+  height: 60vh;
+`;
 
+export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname, push } = useRouter();
+
+  const [sideBarVisible, setSideBarVisible] = useState(false);
+  const [shortCanvas, setShortCanvas] = useState(
+    pathname === '/tast-demo' ? true : false
+  );
 
   const canvas = useRef<HTMLDivElement>(null);
   const [hideDebug, setHideDebug] = useState(false);
@@ -96,6 +110,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
   }
 
+  useEffect(() => {
+    if (pathname === '/tast-demo') {
+      setShortCanvas(true);
+
+      return () => setShortCanvas(false);
+    }
+  }, [pathname]);
+
   return (
     <>
       <Head>
@@ -103,36 +125,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       <Leva hidden={hideDebug} />
       <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Side
-            animate={{ left: sideBarVisible ? 0 : -300 }}
-            initial={{ left: sideBarVisible ? 0 : -300 }}
+        <LayoutContext.Provider value={{ shortCanvas, setShortCanvas }}>
+          <Wrapper
+            style={{
+              height: shortCanvas ? '40vh' : '100vh',
+              background: pathname === '/tast-demo' ? '#343434' : '',
+            }}
           >
-            {pages.map((page) => (
-              <Link key={page.link} href={page.link}>
-                <a onClick={() => setSideBarVisible(false)}>{page.name}</a>
-              </Link>
-            ))}
-          </Side>
-          {!!(pathname !== '/') && (
-            <Button
-              onClick={(e) => {
-                if (e.ctrlKey) {
-                  setSideBarVisible(false);
-                  return push('/');
-                }
-
-                setSideBarVisible((prev) => !prev);
-              }}
+            <Side
+              animate={{ left: sideBarVisible ? 0 : -300 }}
+              initial={{ left: sideBarVisible ? 0 : -300 }}
             >
-              <img src="/menu.svg" alt="menu" />
-            </Button>
+              {pages.map((page) => (
+                <Link key={page.link} href={page.link}>
+                  <a onClick={() => setSideBarVisible(false)}>{page.name}</a>
+                </Link>
+              ))}
+            </Side>
+            {!!(pathname !== '/' && pathname !== '/tast-demo') && (
+              <Button
+                onClick={(e) => {
+                  if (e.ctrlKey) {
+                    setSideBarVisible(false);
+                    return push('/');
+                  }
+
+                  setSideBarVisible((prev) => !prev);
+                }}
+              >
+                <img src="/menu.svg" alt="menu" />
+              </Button>
+            )}
+            <Content ref={canvas} onDoubleClick={handleDubbleClick}>
+              {children}
+            </Content>
+          </Wrapper>
+          {shortCanvas && (
+            <InputWrapper>
+              <InputArea />
+            </InputWrapper>
           )}
-          <Content ref={canvas} onDoubleClick={handleDubbleClick}>
-            {children}
-          </Content>
-        </Wrapper>
-        <GlobalStyles />
+          <GlobalStyles />
+        </LayoutContext.Provider>
       </ThemeProvider>
     </>
   );

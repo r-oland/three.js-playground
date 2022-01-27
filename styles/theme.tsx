@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 const mediaQuery = (minWidth: number) => `@media (min-width: ${minWidth}px)`;
 
 export type ThemeTypes = typeof theme;
@@ -44,8 +46,8 @@ export const theme = {
     s: '16px',
     m: '17px',
     l: '19px',
+    h3: '22px',
     h2: '28px',
-    h3: '35px',
     h1: '40px',
   },
   fontWeight: {
