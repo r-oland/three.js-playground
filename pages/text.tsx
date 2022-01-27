@@ -1,9 +1,8 @@
 // Components==============
 import { OrbitControls, useTexture } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useControls } from 'leva';
 import React, { createContext, Suspense, useState } from 'react';
-import { MeshMatcapMaterial, Texture } from 'three';
+import { MeshMatcapMaterial } from 'three';
 import Loader from '../components/Loader';
 import Item from '../components/text/Item';
 import Tetrahedrons from '../components/text/Tetrahedrons';

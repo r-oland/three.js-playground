@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 const mediaQuery = (minWidth: number) => `@media (min-width: ${minWidth}px)`;
 
 export type ThemeTypes = typeof theme;

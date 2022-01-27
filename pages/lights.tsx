@@ -1,17 +1,12 @@
 // Components==============
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { useControls } from 'leva';
 import React, { useRef } from 'react';
+import { DirectionalLight, PointLight, SpotLight } from 'three';
 import Cylinder from '../components/lights/Cylinder';
 import Plane from '../components/lights/Plane';
 import TorusKnot from '../components/lights/TorusKnot';
-import { useControls } from 'leva';
-import {
-  DirectionalLight,
-  HemisphereLight,
-  PointLight,
-  SpotLight,
-} from 'three';
 // =========================
 
 export default function Lights() {

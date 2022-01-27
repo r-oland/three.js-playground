@@ -29,6 +29,7 @@ export default function Item() {
 
   return (
     <mesh position={position} material={material}>
+      {/* @ts-ignore */}
       <textGeometry
         ref={ref}
         args={[text, { font, size, height, curveSegments }]}
