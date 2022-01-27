@@ -1,6 +1,6 @@
 // Components==============
 import { useControls } from 'leva';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Color, InstancedMesh, MeshPhysicalMaterial, Object3D } from 'three';
 import { colours } from './Box';
 // =========================
