@@ -1,6 +1,6 @@
 export const questions = [
   'Wanneer heb jij voor het laatste iets geleerd?',
-  'wat was jouw laatst geluksmoment?',
+  'wat was jouw laatste geluksmoment?',
   'Waar ben jij slecht in?',
   'Wanneer ging er iets finaal mis?',
   'Wanneer heb je je voor het laatst geschaamd?',

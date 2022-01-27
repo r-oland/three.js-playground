@@ -82,7 +82,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 
   const canvas = useRef<HTMLDivElement>(null);
-  const [hideDebug, setHideDebug] = useState(false);
+  const [hideDebug, setHideDebug] = useState(
+    pathname === '/tast-demo' ? true : false
+  );
 
   function handleDubbleClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.shiftKey) return setHideDebug((prev) => !prev);
