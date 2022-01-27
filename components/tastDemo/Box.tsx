@@ -1,9 +1,13 @@
 // Components==============
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Mesh } from 'three';
 // =========================
+
+export const colours = [
+  0x08baad, 0x5762d5, 0x8a66d8, 0xed6a5a, 0xf4f1bb, 0xb04de5,
+];
 
 export default function Box() {
   const box = useRef<Mesh>();
@@ -24,6 +28,9 @@ export default function Box() {
     floatArr[i] = (Math.random() - 0.5) * 5;
   }
 
+  const colorIndex = Math.floor(Math.random() * colours.length);
+  const genColor = useMemo(() => colours[colorIndex], []);
+
   const { position, color, wireframe, scale } = useControls(
     'box',
     {
@@ -32,7 +39,7 @@ export default function Box() {
         value: [0, 0, 0],
         step: 0.1,
       },
-      color: '#eb5252',
+      color: genColor,
       wireframe: false,
     },
     { collapsed: true }

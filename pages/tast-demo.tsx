@@ -28,7 +28,7 @@ export default function BasicBox() {
   const { shortCanvas } = useContext(LayoutContext);
 
   const ambient = useControls('d-lights.ambient', {
-    intensity: 0.1,
+    intensity: 0.2,
   });
 
   const dirLight = useControls('d-lights.directional light', {
